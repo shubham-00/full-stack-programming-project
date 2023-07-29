@@ -134,7 +134,7 @@ class Controller {
 			displayForm = false;
 		}
 
-		res.render("g2", { message, displayForm, ...user._doc });
+		res.render("g2", { displayForm, ...user._doc });
 	};
 
 	static g2_form_controller = async (req, res) => {
