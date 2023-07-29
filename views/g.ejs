@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%- include('layouts/head', {title: "G_TEST"}); %>
+
+	<body>
+		<%- include("layouts/navbar"); %>
+
+		<section>
+			<div class="container">
+				<!-- Form to update the car details -->
+				<div class="row">
+					<div class="col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
+						<form class="p-3 shadow bg-white" method="POST">
+							<h4 class="text-decoration-underline mb-4">G - Driving Ontario</h4>
+
+							<fieldset>
+								<legend class="fs-6 text-decoration-underline">User information</legend>
+								<div class="mb-3">
+									<label for="firstName" class="form-label">First name</label>
+									<input type="text" class="form-control form-control-sm" id="firstName" name="firstName" value="<%- user.firstName %>" disabled />
+								</div>
+
+								<div class="mb-3">
+									<label for="lastName" class="form-label">Last name</label>
+									<input type="text" class="form-control form-control-sm" id="lastName" name="lastName" value="<%- user.lastName %>" disabled />
+								</div>
+
+								<div class="mb-3">
+									<label for="licenseNumber" class="form-label">License number</label>
+									<input
+										type="text"
+										class="form-control form-control-sm"
+										minlength="7"
+										maxlength="8"
+										id="licenseNumber"
+										name="licenseNumber"
+										value="<%- user.licenseNumber %>"
+										disabled />
+								</div>
+
+								<div class="mb-3">
+									<label for="age" class="form-label">Age</label>
+									<input type="number" class="form-control form-control-sm" id="age" name="age" value="<%- user.age %>" disabled />
+								</div>
+							</fieldset>
+							<hr />
+
+							<fieldset>
+								<legend class="fs-6 text-decoration-underline">Car details</legend>
+
+								<!-- User id -->
+								<input type="text" hidden value="<%- user._id %>" name="_id" />
+
+								<div class="mb-3">
+									<label for="make" class="form-label">Make</label>
+									<input type="text" class="form-control form-control-sm" id="make" name="make" value="<%- user.carDetails.make %>" />
+								</div>
+
+								<div class="mb-3">
+									<label for="model" class="form-label">Model</label>
+									<input type="text" class="form-control form-control-sm" id="model" name="model" value="<%- user.carDetails.model %>" />
+								</div>
+
+								<div class="mb-3">
+									<label for="year" class="form-label">Year</label>
+									<input
+										type="number"
+										class="form-control form-control-sm"
+										id="year"
+										name="year"
+										min="2000"
+										max="2023"
+										value="<%- user.carDetails.year %>" />
+								</div>
+
+								<div class="mb-3">
+									<label for="platNumber" class="form-label">Plat Number</label>
+									<input
+										type="text"
+										class="form-control form-control-sm"
+										id="platNumber"
+										name="platNumber"
+										value="<%- user.carDetails.platNumber %>" />
+								</div>
+							</fieldset>
+
+							<button type="submit" class="btn btn-sm btn-dark">Submit Request</button>
+							<p class="mt-2">This page is under construction!</p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
+	</body>
+</html>

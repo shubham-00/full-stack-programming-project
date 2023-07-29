@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%- include('layouts/head', {title: "Book DriveTest"}); %>
+
+	<body>
+		<%- include("layouts/navbar"); %>
+
+		<section>
+			<div class="card mx-auto" style="max-width: 25rem">
+				<div class="card-body">
+					<h5 class="card-title">Welcome to Driving Ontario</h5>
+					<hr />
+					<div class="card-text">Visit <a href="/G">G License</a> page to register for G license.</div>
+					<br />
+					<div class="card-text">Visit <a href="/G2">G2 License</a> page to register for G2 license.</div>
+					<br />
+					<div class="card-text">Visit <a href="/login">Login</a> page for admin login.</div>
+				</div>
+			</div>
+		</section>
+
+		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
+	</body>
+</html>

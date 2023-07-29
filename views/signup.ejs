@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%- include('layouts/head', {title: "Signup"}); %>
+
+	<body>
+		<%- include("layouts/navbar"); %>
+
+		<section>
+			<div class="row">
+				<div class="col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
+					<form action="/signup" method="post" class="p-3 shadow bg-white">
+						<% if (locals.error) { %>
+						<div class="alert alert-danger" role="alert"><%- locals.error %></div>
+						<% } %>
+
+						<h4 class="text-decoration-underline mb-4">Signup</h4>
+						<div class="mb-3">
+							<label for="username" class="form-label">Username</label>
+							<input type="text" class="form-control form-control-sm" id="username" name="username" />
+						</div>
+
+						<div class="mb-3">
+							<label for="password" class="form-label">Password</label>
+							<input type="password" class="form-control form-control-sm" id="password" name="password" />
+						</div>
+
+						<div class="mb-3">
+							<label for="password2" class="form-label">Confirm password</label>
+							<input type="password" class="form-control form-control-sm" id="password2" name="password2" />
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label">User type</label>
+							<select class="form-select" aria-label="Default select example" name="userType">
+								<!-- <option selected>User type</option> -->
+								<option value="driver">Driver</option>
+								<option value="examiner">Examiner</option>
+								<option value="admin">Admin</option>
+							</select>
+						</div>
+
+						<button type="submit" class="btn btn-sm btn-dark">Submit</button>
+						<p class="mt-2">This page is under construction!</p>
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
+	</body>
+</html>

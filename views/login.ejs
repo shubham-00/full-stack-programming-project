@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%- include('layouts/head', {title: "Login"}); %>
+
+	<body>
+		<%- include("layouts/navbar"); %>
+
+		<section>
+			<div class="row">
+				<div class="col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
+					<form class="p-3 shadow bg-white" method="POST" action="/login">
+						<% if (locals.message) { %>
+						<div class="alert alert-success" role="alert"><%- locals.message %></div>
+						<% } %>
+
+						<h4 class="text-decoration-underline mb-4">Login</h4>
+						<div class="mb-3">
+							<label for="username" class="form-label">Username</label>
+							<input type="text" class="form-control form-control-sm" id="username" name="username" />
+						</div>
+
+						<div class="mb-3">
+							<label for="password" class="form-label">Password</label>
+							<input type="password" class="form-control form-control-sm" id="password" name="password" />
+						</div>
+
+						<button type="submit" class="btn btn-sm btn-dark">Submit</button>
+						<br />
+						<small>Don't have an account? <a href="/signup">Sign up</a></small>
+						<hr />
+						<p class="mt-2">This page is under construction!</p>
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
+	</body>
+</html>
