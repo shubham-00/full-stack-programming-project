@@ -122,9 +122,6 @@ class Controller {
 	};
 
 	static g2_controller = async (req, res) => {
-		const message = req.session.message;
-		delete req.session.message;
-
 		if (!req.session.authenticated || req.session.userType !== "driver") {
 			res.redirect("/");
 		}
@@ -157,7 +154,7 @@ class Controller {
 				age: formData.age,
 				carDetails: {
 					make: formData.make,
-					model: formData.make,
+					model: formData.model,
 					year: formData.year,
 					platNumber: formData.platNumber,
 				},
