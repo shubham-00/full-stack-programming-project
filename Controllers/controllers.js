@@ -185,6 +185,7 @@ class Controller {
 		}
 
 		const formData = req.body;
+		console.log(formData);
 		const timeSlot = await timeModel.findOneAndUpdate(
 			{ date: formData.date, time: formData.times },
 			{ date: formData.date, time: formData.times, isAvailable: false },

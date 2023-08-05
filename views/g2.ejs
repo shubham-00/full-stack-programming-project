@@ -117,7 +117,9 @@
 				timesElement.innerHTML = "";
 				let html = "";
 				for (let i = 0; i < timeSlots.length; i++) {
-					html += `<option value="${timeSlots[i].time}">${timeSlots[i].time}</option>`;
+					if (timeSlots[i].date === dateElement.value) {
+						html += `<option value="${timeSlots[i].time}">${timeSlots[i].time}</option>`;
+					}
 				}
 				timesElement.innerHTML = html;
 			};
