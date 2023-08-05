@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 	<%- include('layouts/head', {title: "Login"}); %>
-
 	<body>
 		<%- include("layouts/navbar"); %>
+		<section class="container"><%- include('layouts/message'); %></section>
 
-		<section class="container">Appointment</section>
+		<section class="container">
+			<!-- Form to add time slots -->
+			<div class="row">
+				<div class="col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
+					<form class="p-3 shadow bg-white" method="POST">
+						<h4 class="text-decoration-underline mb-4">Add time slots</h4>
+
+						<fieldset>
+							<!-- <legend class="fs-6 text-decoration-underline">User information</legend> -->
+							<div class="mb-3">
+								<label for="date" class="form-label">Date</label>
+								<input type="date" class="form-control form-control-sm" id="date" name="date" required />
+							</div>
+
+							<select id="times" name="times" class="form-select" multiple required>
+								<option value="09:00 AM - 09:30 AM">09:00 AM - 09:30 AM</option>
+								<option value="09:30 AM - 10:00 AM">09:30 AM - 10:00 AM</option>
+								<option value="10:00 AM - 10:30 AM">10:00 AM - 10:30 AM</option>
+								<option value="10:30 AM - 11:00 AM">10:30 AM - 11:00 AM</option>
+								<option value="11:00 AM - 11:30 AM">11:00 AM - 11:30 AM</option>
+								<option value="11:30 AM - 12:00 PM">11:30 AM - 12:00 PM</option>
+								<option value="12:00 PM - 12:30 PM">12:00 PM - 12:30 PM</option>
+								<option value="12:30 PM - 01:00 PM">12:30 PM - 01:00 PM</option>
+								<option value="01:00 PM - 01:30 PM">01:00 PM - 01:30 PM</option>
+								<option value="01:30 PM - 02:00 PM">01:30 PM - 02:00 PM</option>
+								<option value="02:00 PM - 02:30 PM">02:00 PM - 02:30 PM</option>
+								<option value="02:30 PM - 03:00 PM">02:30 PM - 03:00 PM</option>
+								<option value="03:00 PM - 03:30 PM">03:00 PM - 03:30 PM</option>
+								<option value="03:30 PM - 04:00 PM">03:30 PM - 04:00 PM</option>
+								<option value="04:00 PM - 04:30 PM">04:00 PM - 04:30 PM</option>
+								<option value="04:30 PM - 05:00 PM">04:30 PM - 05:00 PM</option>
+							</select>
+						</fieldset>
+
+						<button type="submit" class="btn btn-sm btn-dark mt-3">Submit Request</button>
+					</form>
+				</div>
+			</div>
+		</section>
 
 		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
 	</body>

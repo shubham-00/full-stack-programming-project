@@ -30,17 +30,17 @@ app.use(
 );
 
 app.use(function (req, res, next) {
-	res.locals.authenticated = req.session.authenticated || false;
-	res.locals.username = req.session.username || false;
-	res.locals.userType = req.session.userType || false;
+	res.locals.authenticated = req.session.authenticated || "";
+	res.locals.username = req.session.username || "";
+	res.locals.userType = req.session.userType || "";
 
-	res.locals.message = req.session.message || false;
+	res.locals.message = req.session.message || "";
 	delete req.session.message;
 
 	next();
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
 	console.log(`App is listening on port ${PORT}.`);
 });

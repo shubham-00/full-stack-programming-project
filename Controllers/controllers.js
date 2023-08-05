@@ -1,4 +1,4 @@
-import userModel from "../models/db.js";
+import { userModel, timeModel } from "../models/db.js";
 import bcrypt from "bcrypt";
 
 class Controller {
@@ -7,10 +7,24 @@ class Controller {
 	};
 
 	static login_controller = (req, res) => {
+		// authenticated users cannot visit this page
+		if (req.locals?.authenticated) {
+			req.session.message = "Already logged in!";
+			res.redirect("/");
+			return;
+		}
+
 		res.render("login");
 	};
 
 	static login_form_controller = async (req, res) => {
+		// authenticated users cannot visit this page
+		if (req.locals?.authenticated) {
+			req.session.message = "Already logged in!";
+			res.redirect("/");
+			return;
+		}
+
 		const formData = req.body;
 
 		const user_matched = await userModel.findOne({ username: formData.username });
@@ -26,18 +40,34 @@ class Controller {
 				req.session.userType = user_matched.userType;
 				req.session.username = user_matched.username;
 				res.redirect("/");
+				return;
 			} else {
 				req.session.message = "Invalid username or password!";
 				res.redirect("/login");
+				return;
 			}
 		}
 	};
 
 	static signup_controller = (req, res) => {
+		// authenticated users cannot visit this page
+		if (req.locals?.authenticated) {
+			req.session.message = "Already logged in!";
+			res.redirect("/");
+			return;
+		}
+
 		res.render("signup");
+		return;
 	};
 
 	static signup_form_controller = async (req, res) => {
+		// authenticated users cannot visit this page
+		if (req.locals?.authenticated) {
+			req.session.message = "Already logged in!";
+			res.redirect("/");
+		}
+
 		const formData = req.body;
 
 		// check existing user
@@ -71,9 +101,9 @@ class Controller {
 	};
 
 	static logout_controller = (req, res) => {
-		delete req.session.authenticated;
-		delete req.session.userType;
-		delete req.session.username;
+		req.session.authenticated = null;
+		req.session.userType = null;
+		req.session.username = null;
 
 		req.session.message = "Logged out!";
 		res.redirect("/");
@@ -81,7 +111,8 @@ class Controller {
 
 	static g_controller = async (req, res) => {
 		// Only drivers can access this page
-		if (!req.session.authenticated || req.session.userType !== "driver") {
+		if (!req.session?.authenticated || req.session?.userType !== "driver") {
+			req.session.message = "Access denied!";
 			res.redirect("/");
 		}
 
@@ -91,7 +122,8 @@ class Controller {
 
 	static g_form_controller = async (req, res) => {
 		// Only drivers can access this page!
-		if (!req.session.authenticated || req.session.userType !== "driver") {
+		if (!req.session?.authenticated || req.session?.userType !== "driver") {
+			req.session.message = "Access denied!";
 			res.redirect("/");
 		}
 
@@ -122,11 +154,18 @@ class Controller {
 	};
 
 	static g2_controller = async (req, res) => {
-		if (!req.session.authenticated || req.session.userType !== "driver") {
+		if (!req.session?.authenticated || req.session?.userType !== "driver") {
+			req.session.message = "Access denied!";
 			res.redirect("/");
+			return;
 		}
 
 		const user = await userModel.findOne({ username: req.session.username });
+
+		const timeSlots = (await timeModel.find({ isAvailable: true })).map((timeSlot) => {
+			return { date: timeSlot.date, time: timeSlot.time, isAvailable: timeSlot.isAvailable };
+		});
+
 		let displayForm;
 		if (user.firstName === "default") {
 			displayForm = true;
@@ -134,11 +173,34 @@ class Controller {
 			displayForm = false;
 		}
 
-		res.render("g2", { displayForm, ...user._doc });
+		res.render("g2", { displayForm, ...user._doc, timeSlots: JSON.stringify(timeSlots) });
+	};
+
+	static appointment_booking_controller = async (req, res) => {
+		// Only drivers can access
+		if (!req.session?.authenticated || req.session?.userType !== "driver") {
+			req.session.message = "Access denied!";
+			res.redirect("/");
+			return;
+		}
+
+		const formData = req.body;
+		const timeSlot = await timeModel.findOneAndUpdate(
+			{ date: formData.date, time: formData.times },
+			{ date: formData.date, time: formData.times, isAvailable: false },
+		);
+
+		console.log(timeSlot);
+
+		await userModel.findOneAndUpdate({ username: req.session.username }, { appointment: timeSlot._id });
+
+		req.session.message = "Time slot booked!";
+		res.redirect("/g2");
 	};
 
 	static g2_form_controller = async (req, res) => {
-		if (!req.session.authenticated || req.session.userType !== "driver") {
+		if (!req.session?.authenticated || req.session?.userType !== "driver") {
+			req.session.message = "Access denied!";
 			res.redirect("/");
 			return;
 		}
@@ -171,12 +233,37 @@ class Controller {
 
 	static appointment_controller = (req, res) => {
 		// Only admin can view this page!
-		if (!req.session.authenticated || req.session.userType !== "admin") {
+		if (!req.session?.authenticated || req.session?.userType !== "admin") {
+			req.session.message = "Access denied!";
 			res.redirect("/");
 			return;
 		}
 
 		res.render("appointment");
+	};
+
+	static appointment_form_controller = async (req, res) => {
+		// Only admin can view this page!
+		if (!req.session?.authenticated || req.session?.userType !== "admin") {
+			req.session.message = "Access denied!";
+			res.redirect("/");
+			return;
+		}
+
+		const formData = req.body;
+
+		formData.times.forEach(async (time) => {
+			// model exists or not
+			const _model = await timeModel.findOne({ date: formData.date, time: time });
+
+			if (!_model) {
+				const model = new timeModel({ date: formData.date, time: time });
+				await model.save();
+			}
+		});
+
+		req.session.message = "Time slots updated!";
+		res.redirect("/appointment");
 	};
 }
 

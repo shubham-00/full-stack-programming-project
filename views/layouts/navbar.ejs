@@ -17,19 +17,33 @@
 					<a class="nav-link active" href="/">DASHBOARD</a>
 				</li>
 				<% if (locals.authenticated) { %>
+				<!-- user is authenticated -->
+				<% if (locals.userType === "driver") { %>
+				<!-- userType: driver -->
 				<li class="nav-item">
 					<a class="nav-link active" href="/G2">G2_TEST</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" href="/G">G_TEST</a>
 				</li>
+				<!-- // userType: driver -->
+				<% } %> <% if (locals.userType === "admin") { %>
+				<!-- userType: admin -->
+				<li class="nav-item">
+					<a class="nav-link active" href="/appointment">APPOINTMENT</a>
+				</li>
+				<!-- // userType: admin -->
+				<% } %>
 				<li class="nav-item">
 					<a class="nav-link active" href="/logout">LOGOUT</a>
 				</li>
+				<!-- // user is authenticated -->
 				<% } else { %>
+				<!-- user is not authenticated -->
 				<li class="nav-item">
 					<a class="nav-link active" href="/login">LOGIN</a>
 				</li>
+				<!-- // user is not authenticated -->
 				<% } %>
 			</ul>
 		</div>

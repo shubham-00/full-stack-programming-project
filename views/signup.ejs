@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 	<%- include('layouts/head', {title: "Signup"}); %>
-
 	<body>
 		<%- include("layouts/navbar"); %>
+		<section class="container"><%- include('layouts/message'); %></section>
 
 		<section>
 			<div class="row">
 				<div class="col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
 					<form action="/signup" method="post" class="p-3 shadow bg-white">
-						<% if (locals.error) { %>
-						<div class="alert alert-danger" role="alert"><%- locals.error %></div>
-						<% } %>
-
 						<h4 class="text-decoration-underline mb-4">Signup</h4>
 						<div class="mb-3">
 							<label for="username" class="form-label">Username</label>

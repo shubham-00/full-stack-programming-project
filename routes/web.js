@@ -18,9 +18,11 @@ router.post("/G", Controller.g_form_controller);
 
 router.get("/G2", Controller.g2_controller);
 router.post("/G2", Controller.g2_form_controller);
+router.post("/appointment-booking", Controller.appointment_booking_controller);
 
 router.get("/success", Controller.success_controller);
 
 router.get("/appointment", Controller.appointment_controller);
+router.post("/appointment", Controller.appointment_form_controller);
 
 export default router;

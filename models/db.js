@@ -17,6 +17,7 @@ mongoose
 
 // Database Schema
 const userSchema = new mongoose.Schema({
+	appointment: { type: String, required: false },
 	firstName: { type: String, required: true, default: "default" },
 	lastName: { type: String, required: true, default: "default" },
 	username: { type: String, required: true, default: "demo" },
@@ -32,6 +33,13 @@ const userSchema = new mongoose.Schema({
 	},
 });
 
-const userModel = mongoose.model("user", userSchema);
+export const userModel = mongoose.model("user", userSchema);
 
-export default userModel;
+// Database Schema
+const timeSchema = new mongoose.Schema({
+	date: { type: String, required: true },
+	time: { type: String, required: true },
+	isAvailable: { type: Boolean, required: true, default: true },
+});
+
+export const timeModel = mongoose.model("time", timeSchema);

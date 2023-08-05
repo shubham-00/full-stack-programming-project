@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<%- include('layouts/head', {title: "G_TEST"}); %>
-
 	<body>
 		<%- include("layouts/navbar"); %>
+		<section class="container"><%- include('layouts/message'); %></section>
 
 		<section>
 			<div class="container">
@@ -13,7 +13,7 @@
 						<form class="p-3 shadow bg-white" method="POST">
 							<h4 class="text-decoration-underline mb-4">G - Driving Ontario</h4>
 
-							<fieldset>
+							<fieldset class="bg-light">
 								<legend class="fs-6 text-decoration-underline">User information</legend>
 								<div class="mb-3">
 									<label for="firstName" class="form-label">First name</label>

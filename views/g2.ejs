@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<%- include('layouts/head', {title: "G2_TEST"}); %>
-
 	<body>
 		<%- include("layouts/navbar"); %>
+		<section class="container"><%- include('layouts/message'); %></section>
 
 		<section>
 			<div class="row">
@@ -64,22 +64,63 @@
 					</form>
 					<% } else { %>
 					<!-- Display data -->
-					<h3>User Details</h3>
-					<p>First name: <%= firstName %></p>
-					<p>Last name: <%= lastName %></p>
-					<p>License number: <%= licenseNumber %></p>
-					<p>Age: <%= age %></p>
+					<div>
+						<div>
+							<h3>User Details</h3>
+							<p>First name: <%= firstName %></p>
+							<p>Last name: <%= lastName %></p>
+							<p>License number: <%= licenseNumber %></p>
+							<p>Age: <%= age %></p>
+						</div>
 
-					<h3>Car details</h3>
-					<p>Make: <%= carDetails.make %></p>
-					<p>Model: <%= carDetails.model %></p>
-					<p>Year: <%= carDetails.year %></p>
-					<p>Plat number: <%= carDetails.platNumber %></p>
+						<div>
+							<h3>Car details</h3>
+							<p>Make: <%= carDetails.make %></p>
+							<p>Model: <%= carDetails.model %></p>
+							<p>Year: <%= carDetails.year %></p>
+							<p>Plat number: <%= carDetails.platNumber %></p>
+						</div>
+
+						<div>
+							<!-- form to book an appointment -->
+							<form class="p-3 shadow bg-white" method="POST" action="/appointment-booking">
+								<h4 class="text-decoration-underline mb-4">Book an appointment</h4>
+
+								<fieldset>
+									<div class="mb-3">
+										<label for="date" class="form-label">Date</label>
+										<input type="date" class="form-control form-control-sm" id="date" name="date" required />
+									</div>
+
+									<select id="times" name="times" class="form-select" required></select>
+								</fieldset>
+
+								<button type="submit" class="btn btn-sm btn-dark">Submit Request</button>
+								<p class="mt-2">This page is under construction!</p>
+							</form>
+						</div>
+					</div>
 					<% } %>
 				</div>
 			</div>
 		</section>
 
 		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
+
+		<script>
+			const timeSlots = JSON.parse(`<%- timeSlots %>`);
+
+			const timesElement = document.getElementById("times");
+
+			const dateElement = document.getElementById("date");
+			dateElement.onchange = () => {
+				timesElement.innerHTML = "";
+				let html = "";
+				for (let i = 0; i < timeSlots.length; i++) {
+					html += `<option value="${timeSlots[i].time}">${timeSlots[i].time}</option>`;
+				}
+				timesElement.innerHTML = html;
+			};
+		</script>
 	</body>
 </html>
