@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%- include('layouts/head', {title: "Examiner"}); %>
+	<body>
+		<%- include("layouts/navbar"); %>
+		<section class="container"><%- include('layouts/message'); %></section>
+
+		<section class="container">
+			<!-- List of appointments which were booked! -->
+			<h1>Appointments</h1>
+			<ol class="list-group list-group-numbered">
+				<% for (let i=0; i < users.length; i++) { %>
+				<li class="list-group-item d-flex justify-content-between align-items-start">
+					<div class="ms-2 me-auto">
+						<div class="fw-bold"><%= users[i].username %></div>
+						Date: <%= users[i].date %> <br />
+						Time: <%= users[i].time %> <br />
+						Test type: <%= users[i].testType %>
+					</div>
+					<!-- <span class="badge bg-primary rounded-pill">Expand</span> -->
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<%= users[i].username %>">
+						Expand
+					</button>
+
+					<div
+						class="modal fade"
+						id="exampleModal<%= users[i].username %>"
+						tabindex="-1"
+						aria-labelledby="exampleModalLabel<%= users[i].username %>"
+						aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel<%= users[i].username %>">Results</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form class="p-3 shadow bg-white" method="POST">
+										<h4 class="text-decoration-underline mb-4">Add time slots</h4>
+
+										<fieldset>
+											<div class="mb-3">
+												<input type="text" hidden name="username" value="<%= users[i].username %>" />
+
+												<label for="comments" class="form-label">Comments</label>
+												<input type="text" class="form-control form-control-sm" id="comments" name="comments" required />
+											</div>
+
+											<select id="results" name="results" class="form-select" required>
+												<option value="pass">Passed</option>
+												<option value="fail">Failed</option>
+											</select>
+										</fieldset>
+
+										<button type="submit" class="btn btn-sm btn-dark mt-3">Submit</button>
+									</form>
+								</div>
+								<!-- <div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary">Save changes</button>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</li>
+				<% } %>
+			</ol>
+		</section>
+
+		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
+	</body>
+</html>

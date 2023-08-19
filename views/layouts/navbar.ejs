@@ -33,6 +33,12 @@
 					<a class="nav-link active" href="/appointment">APPOINTMENT</a>
 				</li>
 				<!-- // userType: admin -->
+				<% } %> <% if (locals.userType === "examiner") { %>
+				<!-- userType: examiner -->
+				<li class="nav-item">
+					<a class="nav-link active" href="/examiner">Examiner</a>
+				</li>
+				<!-- // userType: examiner -->
 				<% } %>
 				<li class="nav-item">
 					<a class="nav-link active" href="/logout">LOGOUT</a>

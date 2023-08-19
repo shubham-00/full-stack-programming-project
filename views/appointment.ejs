@@ -43,6 +43,23 @@
 					</form>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-10 col-sm-8 col-md-6 col-lg-4 mx-auto">
+					Passed drivers
+					<ul>
+						<% for (let i = 0; i < passed_drivers.length; i++) { %>
+						<li><%= passed_drivers[i].firstName %> <%= passed_drivers[i].lastName %></li>
+						<% } %>
+					</ul>
+
+					Failed drivers
+					<ul>
+						<% for (let i = 0; i < failed_drivers.length; i++) { %>
+						<li><%= failed_drivers[i].firstName %> <%= failed_drivers[i].lastName %></li>
+						<% } %>
+					</ul>
+				</div>
+			</div>
 		</section>
 
 		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>

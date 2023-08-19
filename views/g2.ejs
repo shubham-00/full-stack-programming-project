@@ -26,7 +26,13 @@
 
 							<div class="mb-3">
 								<label for="licenseNumber" class="form-label">License number</label>
-								<input type="text" class="form-control form-control-sm" minlength="8" maxlength="8" id="licenseNumber" name="licenseNumber" />
+								<input
+									type="text"
+									class="form-control form-control-sm"
+									minlength="8"
+									maxlength="8"
+									id="licenseNumber"
+									name="licenseNumber" />
 							</div>
 
 							<div class="mb-3">
@@ -87,6 +93,8 @@
 								<h4 class="text-decoration-underline mb-4">Book an appointment</h4>
 
 								<fieldset>
+									<input type="text" hidden name="testType" id="testType" value="g2" />
+
 									<div class="mb-3">
 										<label for="date" class="form-label">Date</label>
 										<input type="date" class="form-control form-control-sm" id="date" name="date" required />

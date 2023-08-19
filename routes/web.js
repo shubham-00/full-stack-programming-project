@@ -25,4 +25,7 @@ router.get("/success", Controller.success_controller);
 router.get("/appointment", Controller.appointment_controller);
 router.post("/appointment", Controller.appointment_form_controller);
 
+router.get("/examiner", Controller.examiner_controller);
+router.post("/examiner", Controller.examiner_form_controller);
+
 export default router;

@@ -117,7 +117,12 @@ class Controller {
 		}
 
 		const user = await userModel.findOne({ username: req.session.username });
-		res.render("g", { user });
+
+		const timeSlots = (await timeModel.find({ isAvailable: true })).map((timeSlot) => {
+			return { date: timeSlot.date, time: timeSlot.time, isAvailable: timeSlot.isAvailable };
+		});
+
+		res.render("g", { user, timeSlots: JSON.stringify(timeSlots) });
 	};
 
 	static g_form_controller = async (req, res) => {
@@ -185,13 +190,10 @@ class Controller {
 		}
 
 		const formData = req.body;
-		console.log(formData);
 		const timeSlot = await timeModel.findOneAndUpdate(
 			{ date: formData.date, time: formData.times },
-			{ date: formData.date, time: formData.times, isAvailable: false },
+			{ date: formData.date, time: formData.times, isAvailable: false, testType: formData.testType },
 		);
-
-		console.log(timeSlot);
 
 		await userModel.findOneAndUpdate({ username: req.session.username }, { appointment: timeSlot._id });
 
@@ -232,7 +234,7 @@ class Controller {
 		res.render("success");
 	};
 
-	static appointment_controller = (req, res) => {
+	static appointment_controller = async (req, res) => {
 		// Only admin can view this page!
 		if (!req.session?.authenticated || req.session?.userType !== "admin") {
 			req.session.message = "Access denied!";
@@ -240,7 +242,10 @@ class Controller {
 			return;
 		}
 
-		res.render("appointment");
+		const passed_drivers = await userModel.find({ results: true });
+		const failed_drivers = await userModel.find({ results: false });
+
+		res.render("appointment", { passed_drivers, failed_drivers });
 	};
 
 	static appointment_form_controller = async (req, res) => {
@@ -255,6 +260,60 @@ class Controller {
 
 		formData.times.forEach(async (time) => {
 			// model exists or not
+			const _model = await timeModel.findOne({ date: formData.date, time: time, testType: formData.testType });
+
+			if (!_model) {
+				const model = new timeModel({ date: formData.date, time: time });
+				await model.save();
+			}
+		});
+
+		req.session.message = "Time slots updated!";
+		res.redirect("/appointment");
+	};
+
+	static examiner_controller = async (req, res) => {
+		// Only examiner can view this page!
+		if (!req.session?.authenticated || req.session?.userType !== "examiner") {
+			req.session.message = "Access denied!";
+			res.redirect("/");
+			return;
+		}
+
+		let users = (await userModel.find({})).filter((user) => {
+			if (user.appointment) {
+				return true;
+			}
+			return false;
+		});
+
+		let updated_users = [];
+
+		for (let i = 0; i < users.length; i++) {
+			const time = await timeModel.findOne({ _id: users[i].appointment });
+			if (time) {
+				updated_users.push({
+					...users[i]._doc,
+					...time._doc,
+				});
+			} else {
+				// updated_users.push({
+				// 	...users[i]._doc,
+				// });
+			}
+		}
+
+		console.log(updated_users);
+
+		return res.render("examiner", { users: updated_users });
+
+		// trash
+		const timeSlots = (await timeModel.find({ isAvailable: true })).map((timeSlot) => {
+			return { date: timeSlot.date, time: timeSlot.time, isAvailable: timeSlot.isAvailable };
+		});
+
+		formData.times.forEach(async (time) => {
+			// model exists or not
 			const _model = await timeModel.findOne({ date: formData.date, time: time });
 
 			if (!_model) {
@@ -265,6 +324,18 @@ class Controller {
 
 		req.session.message = "Time slots updated!";
 		res.redirect("/appointment");
+	};
+
+	static examiner_form_controller = async (req, res) => {
+		const formData = req.body;
+
+		await userModel.findOneAndUpdate(
+			{ username: formData.username },
+			{ comments: formData.comments, results: formData.results == "pass" ? true : false },
+			// options,
+		);
+
+		return res.redirect("/examiner");
 	};
 }
 

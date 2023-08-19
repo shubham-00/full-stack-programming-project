@@ -17,12 +17,24 @@
 								<legend class="fs-6 text-decoration-underline">User information</legend>
 								<div class="mb-3">
 									<label for="firstName" class="form-label">First name</label>
-									<input type="text" class="form-control form-control-sm" id="firstName" name="firstName" value="<%- user.firstName %>" disabled />
+									<input
+										type="text"
+										class="form-control form-control-sm"
+										id="firstName"
+										name="firstName"
+										value="<%- user.firstName %>"
+										disabled />
 								</div>
 
 								<div class="mb-3">
 									<label for="lastName" class="form-label">Last name</label>
-									<input type="text" class="form-control form-control-sm" id="lastName" name="lastName" value="<%- user.lastName %>" disabled />
+									<input
+										type="text"
+										class="form-control form-control-sm"
+										id="lastName"
+										name="lastName"
+										value="<%- user.lastName %>"
+										disabled />
 								</div>
 
 								<div class="mb-3">
@@ -53,12 +65,22 @@
 
 								<div class="mb-3">
 									<label for="make" class="form-label">Make</label>
-									<input type="text" class="form-control form-control-sm" id="make" name="make" value="<%- user.carDetails.make %>" />
+									<input
+										type="text"
+										class="form-control form-control-sm"
+										id="make"
+										name="make"
+										value="<%- user.carDetails.make %>" />
 								</div>
 
 								<div class="mb-3">
 									<label for="model" class="form-label">Model</label>
-									<input type="text" class="form-control form-control-sm" id="model" name="model" value="<%- user.carDetails.model %>" />
+									<input
+										type="text"
+										class="form-control form-control-sm"
+										id="model"
+										name="model"
+										value="<%- user.carDetails.model %>" />
 								</div>
 
 								<div class="mb-3">
@@ -85,12 +107,50 @@
 							</fieldset>
 
 							<button type="submit" class="btn btn-sm btn-dark">Submit Request</button>
+						</form>
+
+						<br />
+
+						<!-- form to book an appointment -->
+						<form class="p-3 shadow bg-white" method="POST" action="/appointment-booking">
+							<h4 class="text-decoration-underline mb-4">Book an appointment</h4>
+
+							<fieldset>
+								<input type="text" hidden id="testType" name="testType" value="g" />
+
+								<div class="mb-3">
+									<label for="date" class="form-label">Date</label>
+									<input type="date" class="form-control form-control-sm" id="date" name="date" required />
+								</div>
+
+								<select id="times" name="times" class="form-select" required></select>
+							</fieldset>
+
+							<button type="submit" class="btn btn-sm btn-dark">Submit Request</button>
 							<p class="mt-2">This page is under construction!</p>
 						</form>
 					</div>
 				</div>
 			</div>
 		</section>
+
+		<script>
+			const timeSlots = JSON.parse(`<%- timeSlots %>`);
+
+			const timesElement = document.getElementById("times");
+
+			const dateElement = document.getElementById("date");
+			dateElement.onchange = () => {
+				timesElement.innerHTML = "";
+				let html = "";
+				for (let i = 0; i < timeSlots.length; i++) {
+					if (timeSlots[i].date === dateElement.value) {
+						html += `<option value="${timeSlots[i].time}">${timeSlots[i].time}</option>`;
+					}
+				}
+				timesElement.innerHTML = html;
+			};
+		</script>
 
 		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
 	</body>

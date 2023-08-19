@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
 	licenseNumber: { type: String, required: true, default: "default" },
 	userType: { type: String, required: true, default: "driver" },
 	age: { type: Number, required: true, default: 0 },
+	results: {
+		type: Boolean,
+		required: false,
+	},
+	comments: {
+		type: String,
+		required: false,
+	},
 	carDetails: {
 		make: { type: String, required: true, default: "default" },
 		model: { type: String, required: true, default: "default" },
@@ -40,6 +48,7 @@ const timeSchema = new mongoose.Schema({
 	date: { type: String, required: true },
 	time: { type: String, required: true },
 	isAvailable: { type: Boolean, required: true, default: true },
+	testType: { type: String, required: false },
 });
 
 export const timeModel = mongoose.model("time", timeSchema);
