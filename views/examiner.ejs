@@ -8,14 +8,23 @@
 		<section class="container">
 			<!-- List of appointments which were booked! -->
 			<h1>Appointments</h1>
-			<ol class="list-group list-group-numbered">
+
+			<!-- <div class="btn-group" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-primary" id="all_button">All</button>
+				<button type="button" class="btn btn-primary" id="g_button">G</button>
+				<button type="button" class="btn btn-primary" id="g2_button">G2</button>
+			</div> -->
+
+			<ol class="list-group list-group-numbered" id="list">
 				<% for (let i=0; i < users.length; i++) { %>
-				<li class="list-group-item d-flex justify-content-between align-items-start">
+				<li class="list-group-item d-flex justify-content-between align-items-start" name="<%= users[i].testType %>">
 					<div class="ms-2 me-auto">
 						<div class="fw-bold"><%= users[i].username %></div>
 						Date: <%= users[i].date %> <br />
 						Time: <%= users[i].time %> <br />
-						Test type: <%= users[i].testType %>
+						Test type: <%= users[i].testType %> <br />
+						Comments: <%= users[i].comments %> <br />
+						Results: <%= users[i].results?"Pass":"Fail" %>
 					</div>
 					<!-- <span class="badge bg-primary rounded-pill">Expand</span> -->
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<%= users[i].username %>">
@@ -66,6 +75,41 @@
 				<% } %>
 			</ol>
 		</section>
+
+		<!-- <script>
+			document.getElementById("all_button").onclick = () => {
+				console.log("all");
+				const all_elements = document.getElementById("list").children;
+
+				for (let i = 0; i < all_elements.length; i++) {
+					all_elements[i].style.display = "block";
+				}
+			};
+
+			document.getElementById("g_button").onclick = () => {
+				const all_elements = document.getElementById("list").children;
+
+				for (let i = 0; i < all_elements.length; i++) {
+					if (all_elements[i].getAttribute("name") == "g") {
+						all_elements[i].style.display = "block";
+					} else {
+						all_elements[i].style.display = "none";
+					}
+				}
+			};
+
+			document.getElementById("g2_button").onclick = () => {
+				const all_elements = document.getElementById("list").children;
+
+				for (let i = 0; i < all_elements.length; i++) {
+					if (all_elements[i].getAttribute("name") == "g2") {
+						all_elements[i].style.display = "block";
+					} else {
+						all_elements[i].style.display = "none";
+					}
+				}
+			};
+		</script> -->
 
 		<%- include("layouts/footer"); %> <%- include('layouts/scripts'); %>
 	</body>
